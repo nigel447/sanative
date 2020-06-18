@@ -32,7 +32,6 @@ import (
 const (
 	keccakhash ="c63a6dc8aafed8a7deee66c7dc64cd3804cd9d5cece26f24ce1c7a330d12237c"
 	twoFACode = "12345678"
-
 )
 
 var (
@@ -64,6 +63,41 @@ func TestTwoFA(t *testing.T) {
 
 func TestEndPoint(t *testing.T) {
 	snUtil.LogStringData("ser entity:", snUtil.Endpoint(true, "session"))
+}
+
+func TestClientMesageFlow(t *testing.T) {
+	// get a key for session config
+	PrvECISHexKey := HexKey(snUtil.ReadFileKey("keyhex.txt"))
+	// create an entity id
+	eid := NewEntityID(PrvECISHexKey)
+	// create a session
+	session := eid.NewSession()
+	// sessions will be stored in a map with a nonce as key
+	sessions := make(map[string]snUtil.Session)
+	sessions[session.Nonce] = *session
+
+	// now create a message session, for the client
+	mssgSession := eid.NewMessageSession()
+
+	// test equal nonce
+	snUtil.LogStringData("mssgSession.Nonce", mssgSession.Nonce)
+	snUtil.LogStringData("session.Nonce", session.Nonce)
+
+	// test 2fa code generate
+	snUtil.LogStringData("mssgSession.PublicKey", mssgSession.PublicKey)
+
+	// key := base32.StdEncoding.EncodeToString([]byte(mssgSession.PublicKey))
+
+	code := GeneratePassCode(mssgSession.PublicKey)
+
+	snUtil.LogStringData("code", code)
+
+	ret2 := ValidateCodeSHA512(code, mssgSession.PublicKey)
+	snUtil.LogStringData("2fa is valid", strconv.FormatBool(ret2))
+
+
+
+
 }
 
  

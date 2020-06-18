@@ -26,6 +26,7 @@ import (
 	"crypto/ecdsa"
 	"crypto/rand"
 	"encoding/hex"
+	"encoding/base32"
 	"fmt"
 	ethCrypto "github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/crypto/ecies"
@@ -52,7 +53,7 @@ func (eid *EntityID) NewSession() *Session {
 
 func (eid *EntityID) NewMessageSession() *MessageSession {
 	return &MessageSession{
-		PublicKey: hex.EncodeToString(eid.PublicKey),
+		PublicKey: base32.StdEncoding.EncodeToString(eid.PublicKey),
 		IsValid:   true,
 		Nonce:     hex.EncodeToString(eid.Keccakhash)}
 }

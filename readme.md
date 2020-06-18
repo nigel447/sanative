@@ -1,6 +1,6 @@
-## Security code for native android applications
+## Security code for native android / rasberry pi applications
 
-### A novel attempt to create a sucure channel over http  
+### A novel attempt to create a secure channel over http  
 
 ### Verify  
 server / client share a  private key, client ecdsa signs the public key and sends 
