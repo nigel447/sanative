@@ -67,7 +67,6 @@ type JsonSessionResponse struct {
 	Data    MessageSession
 }
 
-
 // SerMessageToJson to do
 func (mssg *Message) SerMessageToJson() []byte {
 	ret, err := json.Marshal(mssg)
@@ -77,6 +76,7 @@ func (mssg *Message) SerMessageToJson() []byte {
 	return ret
 
 }
+
 // SerSessionToJson to do
 func (session *Session) SerSessionToJson() []byte {
 

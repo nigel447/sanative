@@ -23,12 +23,10 @@ SOFTWARE.
 package sanative
 
 import (
-	//"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
 	"encoding/base32"
 	"encoding/json"
-	// "encoding/hex"
 	ethCrypto "github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/crypto/ecies"
 	"strconv"
@@ -90,7 +88,6 @@ func TestSerEntityID(t *testing.T) {
 	snUtil.LogStringData("ser entity:", string(ret))
 
 }
-
 
 func TestSession(t *testing.T) {
 	PrvECISHexKey := HexKey(snUtil.ReadFileKey("keyhex.txt"))
@@ -160,8 +157,6 @@ func TestEthVerify(t *testing.T) {
 	ret := snEcies.EthVerify(publicKey, khash, sig)
 	snUtil.LogStringData("signature is valid", strconv.FormatBool(ret))
 }
-
-
 
 func genECIESKey() *ecies.PrivateKey {
 

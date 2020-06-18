@@ -23,15 +23,15 @@ SOFTWARE.
 package sanative
 
 import (
-	"testing"
-	"strconv"
 	"encoding/base32"
 	snUtil "github.com/nigel447/sanative/util"
+	"strconv"
+	"testing"
 )
 
 const (
-	keccakhash ="c63a6dc8aafed8a7deee66c7dc64cd3804cd9d5cece26f24ce1c7a330d12237c"
-	twoFACode = "12345678"
+	keccakhash = "c63a6dc8aafed8a7deee66c7dc64cd3804cd9d5cece26f24ce1c7a330d12237c"
+	twoFACode  = "12345678"
 )
 
 var (
@@ -39,12 +39,12 @@ var (
 )
 
 func TestMessageSerde(t *testing.T) {
- 
-	mssg := &snUtil.Message{Nonce:keccakhash, TwoFACode:twoFACode, Data:data }
+
+	mssg := &snUtil.Message{Nonce: keccakhash, TwoFACode: twoFACode, Data: data}
 	js := mssg.SerMessageToJson()
 	snUtil.LogStringData("ser entity:", string(js))
 }
- 
+
 func TestTwoFA(t *testing.T) {
 	PrvECISHexKey := HexKey(snUtil.ReadFileKey("keyhex.txt"))
 	ecdsaKey := PrvECISHexKey.ExportECDSA()
@@ -79,25 +79,16 @@ func TestClientMesageFlow(t *testing.T) {
 	// now create a message session, for the client
 	mssgSession := eid.NewMessageSession()
 
-	// test equal nonce
+	// check nonce and key
 	snUtil.LogStringData("mssgSession.Nonce", mssgSession.Nonce)
 	snUtil.LogStringData("session.Nonce", session.Nonce)
-
-	// test 2fa code generate
 	snUtil.LogStringData("mssgSession.PublicKey", mssgSession.PublicKey)
 
-	// key := base32.StdEncoding.EncodeToString([]byte(mssgSession.PublicKey))
-
+	// test 2fa code generate
 	code := GeneratePassCode(mssgSession.PublicKey)
-
 	snUtil.LogStringData("code", code)
-
+	// test 2fa code verify
 	ret2 := ValidateCodeSHA512(code, mssgSession.PublicKey)
 	snUtil.LogStringData("2fa is valid", strconv.FormatBool(ret2))
 
-
-
-
 }
-
- 
