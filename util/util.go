@@ -34,17 +34,17 @@ import (
 	"net/url"
 )
 
-func Endpoint(isTest bool, pathPart string) string {
+func Endpoint(isTest bool, pathPart string, prodHost string) string {
+	endpoint := url.URL{}
+	endpoint.Scheme = "http"
+	endpoint.Path = pathPart
 
 	if isTest {
-		endpoint := url.URL{
-			Scheme: "http",
-			Host:   "localhost:8080",
-			Path:   pathPart,
-		}
-		return endpoint.String()
+		endpoint.Host = "localhost:8080"
+	} else {
+		endpoint.Host = prodHost
 	}
-	return "endpoint"
+	return endpoint.String()
 }
 
 func (eid *EntityID) NewSession() *Session {

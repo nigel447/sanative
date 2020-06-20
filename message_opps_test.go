@@ -62,7 +62,8 @@ func TestTwoFA(t *testing.T) {
 }
 
 func TestEndPoint(t *testing.T) {
-	snUtil.LogStringData("ser entity:", snUtil.Endpoint(true, "session"))
+	// no backslash before path part
+	snUtil.LogStringData("ser entity:", snUtil.Endpoint(false, "session", "go-dock-dev4.apps.us-east-2.starter.openshift-online.com"))
 }
 
 func TestClientMesageFlow(t *testing.T) {
